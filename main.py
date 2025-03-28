@@ -62,3 +62,7 @@ dh4 = [W1[7]*n1[i] for i in range(len(n1))]
 dh3 = [W1[6]*n1[i] for i in range(len(n1))]
 dh2 = [W1[3]*dih_sigmoid(zh2h3(Nx[i]))*dh3[i]+W1[5]*dih_sigmoid(zh2h4(Nx[i]))*dh4[i] for i in range(len(n1))]
 dh1 = [W1[2]*dih_sigmoid(zh1h3(Nx[i]))*dh3[i]+W1[4]*dih_sigmoid(zh1h4(Nx[i]))*dh4[i] for i in range(len(n1))]
+
+db1 = sum([dih_sigmoid(zh1(Nx[i]))*dh1[i] for i in range(L)])
+db2 = sum([dih_sigmoid(zh2(Nx[i]))*dh2[i] for i in range(L)])
+print(db1)
