@@ -11,8 +11,8 @@ x_i = 0
 R = 0.0015
 
 v = [10*random.random()-5 for i in range(13)]
-W1 = [-1.9136894178674058,2.7360921465939985,3.3677812816208146,1.6140926914772145,-3.999274163349338,4.573827969774543,-1.0733844308846163,0.07807117237095973]
-B1 = [-1.843211464451965,-4.803124059806252,-0.14979323537180278,2.5750609298137075,0.7147339433059532]
+W1 = [v[i] for i in range(8)]
+B1 = [v[i] for i in range(8,13)]
 
 def f(x):
     return x**2
@@ -54,9 +54,14 @@ def zh2h3(x):
     return W1[3]*h2(x)+B1[2]
 def zh2h4(x):
     return W1[5]*h2(x)+B1[3]
-n1_org = [yh(Nx[i])-Ny[i] for i in range(L)]
 n1 = [2*(yh(Nx[i])-Ny[i]) for i in range(L)]
-loss = (sum(n1_org)/len(n1_org))**2
+def loss(n1):
+    loss = []
+    for i in range(len(n1)):
+        elm = (n1[i]/2)**2
+        loss.append(elm)
+    loss1 = sum(loss)/len(loss)
+    return loss1
 
 dh4 = [W1[7]*n1[i] for i in range(len(n1))]
 dh3 = [W1[6]*n1[i] for i in range(len(n1))]
@@ -74,8 +79,24 @@ dw2 = sum([Nx[i]*dih_sigmoid(zh2(Nx[i]))*dh2[i] for i in range(L)])
 dw3 = sum([h1(Nx[i])*dih_sigmoid(zh3(Nx[i]))*dh3[i] for i in range(L)])
 dw4 = sum([h2(Nx[i])*dih_sigmoid(zh3(Nx[i]))*dh3[i] for i in range(L)])
 dw5 = sum([h1(Nx[i])*dih_sigmoid(zh4(Nx[i]))*dh4[i] for i in range(L)])
-dw6 = sum([h3(Nx[i])*n1[i] for i in range(L)])
+dw6 = sum([h2(Nx[i])*dih_sigmoid(zh4(Nx[i]))*dh4[i] for i in range(L)])
 dw7 = sum([h3(Nx[i])*n1[i] for i in range(L)])
 dw8 = sum([h4(Nx[i])*n1[i] for i in range(L)])
 
-print(loss)
+while loss(n1) > 0.1:
+    n1 = [2 * (yh(Nx[i]) - Ny[i]) for i in range(L)]
+    x_i += 1
+    W1[0] -= dw1 * R
+    W1[1] -= dw2 * R
+    W1[2] -= dw3 * R
+    W1[3] -= dw4 * R
+    W1[4] -= dw5 * R
+    W1[5] -= dw6 * R
+    W1[6] -= dw7 * R
+    W1[7] -= dw8 * R
+    B1[0] -= db1 * R
+    B1[1] -= db2 * R
+    B1[2] -= db3 * R
+    B1[3] -= db4 * R
+    B1[4] -= db5 * R
+    print(yh(1))
