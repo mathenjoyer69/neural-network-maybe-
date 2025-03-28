@@ -1,18 +1,18 @@
 import numpy as np
 import random
-import matplotlib.pyplot
+import matplotlib.pyplot as pt
 
 def sigmoid(x):
     return float(1/(1+np.exp(-x)))
 def dih_sigmoid(x):
-    return float(np.exp(x)/np.exp(x)+1)
+    return sigmoid(x)*(1-sigmoid(x))
 
 x_i = 0
-R = 0.0014
+R = 0.0015
 
 v = [10*random.random()-5 for i in range(13)]
-W1 = [v[i] for i in range(8)]
-B1 = [v[i] for i in range(8,13)]
+W1 = [-1.9136894178674058,2.7360921465939985,3.3677812816208146,1.6140926914772145,-3.999274163349338,4.573827969774543,-1.0733844308846163,0.07807117237095973]
+B1 = [-1.843211464451965,-4.803124059806252,-0.14979323537180278,2.5750609298137075,0.7147339433059532]
 
 def f(x):
     return x**2
@@ -65,4 +65,17 @@ dh1 = [W1[2]*dih_sigmoid(zh1h3(Nx[i]))*dh3[i]+W1[4]*dih_sigmoid(zh1h4(Nx[i]))*dh
 
 db1 = sum([dih_sigmoid(zh1(Nx[i]))*dh1[i] for i in range(L)])
 db2 = sum([dih_sigmoid(zh2(Nx[i]))*dh2[i] for i in range(L)])
-print(db1)
+db3 = sum([dih_sigmoid(zh3(Nx[i]))*dh3[i] for i in range(L)])
+db4 = sum([dih_sigmoid(zh4(Nx[i]))*dh4[i] for i in range(L)])
+db5 = sum(n1)
+
+dw1 = sum([Nx[i]*dih_sigmoid(zh1(Nx[i]))*dh1[i] for i in range(L)])
+dw2 = sum([Nx[i]*dih_sigmoid(zh2(Nx[i]))*dh2[i] for i in range(L)])
+dw3 = sum([h1(Nx[i])*dih_sigmoid(zh3(Nx[i]))*dh3[i] for i in range(L)])
+dw4 = sum([h2(Nx[i])*dih_sigmoid(zh3(Nx[i]))*dh3[i] for i in range(L)])
+dw5 = sum([h1(Nx[i])*dih_sigmoid(zh4(Nx[i]))*dh4[i] for i in range(L)])
+dw6 = sum([h3(Nx[i])*n1[i] for i in range(L)])
+dw7 = sum([h3(Nx[i])*n1[i] for i in range(L)])
+dw8 = sum([h4(Nx[i])*n1[i] for i in range(L)])
+
+print(loss)
