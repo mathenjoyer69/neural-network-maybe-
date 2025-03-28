@@ -1,7 +1,6 @@
 import numpy as np
 import random
 import matplotlib.pyplot
-from numpy.ma.core import count
 
 
 def sigmoid(x):
