@@ -13,7 +13,7 @@ def dih_sigmoid(x):
 x_i = 0
 R = 0.01
 
-v = [10*random.random()-5 for i in range(13)]
+v = [8*random.random()-4 for i in range(13)]
 W1 = [v[i] for i in range(8)]
 B1 = [v[i] for i in range(8,13)]
 
@@ -62,10 +62,8 @@ n1 = [2*(yh(Nx[i])-Ny[i]) for i in range(L)]
 def loss():
     return sum([(n1[i] / 2) ** 2 for i in range(len(n1))]) / len(n1)
 
-max_iterations = 10000
 iteration = 0
-
-while loss() > 0.1 and iteration < max_iterations:
+while loss() > 0.042:
     iteration += 1
 
     n1 = [2 * (yh(Nx[i]) - Ny[i]) for i in range(L)]
@@ -108,7 +106,7 @@ while loss() > 0.1 and iteration < max_iterations:
         print(f"loss = {loss()}")
 
 print(loss())
-pt.plot(Nx, Ny, label="True")
-pt.plot(Nx, [yh(x) for x in Nx], label="Predicted")
+pt.plot(Nx, Ny, label="true")
+pt.plot(Nx, [yh(x) for x in Nx], label="predicted")
 pt.legend()
 pt.show()
