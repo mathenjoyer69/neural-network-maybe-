@@ -1,6 +1,7 @@
 import numpy as np
 import random
-import matplotlib.pyplot as pt
+import matplotlib.pyplot as plt
+from time import sleep
 
 def sigmoid(x):
     return 1 / (1 + np.exp(-np.clip(x, -500, 500)))
@@ -63,7 +64,11 @@ def loss():
     return sum([(n1[i] / 2) ** 2 for i in range(len(n1))]) / len(n1)
 
 iteration = 0
-while loss() > 0.042:
+while loss() > 0.03:
+    if iteration > 1000 and loss() > 10:
+        W1 = [random.random() for i in range(8)]
+        B1 = [random.random() for i in range(5)]
+
     iteration += 1
 
     n1 = [2 * (yh(Nx[i]) - Ny[i]) for i in range(L)]
@@ -102,11 +107,8 @@ while loss() > 0.042:
     B1[3] -= db4 * R
     B1[4] -= db5 * R
 
-    if iteration % 100 == 0:
-        print(f"loss = {loss()}")
-
 print(loss())
-pt.plot(Nx, Ny, label="true")
-pt.plot(Nx, [yh(x) for x in Nx], label="predicted")
-pt.legend()
-pt.show()
+plt.plot(Nx, Ny, label="true")
+plt.plot(Nx, [yh(x) for x in Nx], label="predicted")
+plt.legend()
+plt.show()
