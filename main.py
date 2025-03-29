@@ -10,7 +10,6 @@ def dih_sigmoid(x):
     s = sigmoid(x)
     return s * (1 - s)
 
-
 x_i = 0
 R = 0.01
 
@@ -64,10 +63,12 @@ def loss():
     return sum([(n1[i] / 2) ** 2 for i in range(len(n1))]) / len(n1)
 
 iteration = 0
-while loss() > 0.03:
-    if iteration > 1000 and loss() > 10:
+losses = []
+while loss() > 0.008:
+    if iteration > 1000 and loss() > 0.4:
         W1 = [random.random() for i in range(8)]
         B1 = [random.random() for i in range(5)]
+        iteration = 0
 
     iteration += 1
 
@@ -106,6 +107,10 @@ while loss() > 0.03:
     B1[2] -= db3 * R
     B1[3] -= db4 * R
     B1[4] -= db5 * R
+
+    if iteration % 100 == 0:
+        print(f"loss: {loss()}")
+        losses.append(loss())
 
 print(loss())
 plt.plot(Nx, Ny, label="true")
