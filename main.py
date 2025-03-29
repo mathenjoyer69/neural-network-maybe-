@@ -20,9 +20,9 @@ B1 = [v[i] for i in range(8,13)]
 def f(x):
     return np.cos(x)
 
-x_interval = 3
-x_points = 50
-n_i = np.linspace(-x_interval, 1.5, x_points)
+x_interval = 4
+x_points = 60
+n_i = np.linspace(-x_interval, x_interval, x_points)
 n_i = [float(n_i[i]) for i in range(len(n_i))]
 N = [(i,f(i)) for i in n_i]
 L = len(N)
@@ -63,12 +63,15 @@ def loss():
     return sum([(n1[i] / 2) ** 2 for i in range(len(n1))]) / len(n1)
 
 iteration = 0
+k_i = 0
 losses = []
 while loss() > 0.008:
     if iteration > 1000 and loss() > 0.4:
         W1 = [random.random() for i in range(8)]
         B1 = [random.random() for i in range(5)]
+        f1 = plt.plot(Nx, [yh(x) for x in Nx])
         iteration = 0
+        k_i += 1
 
     iteration += 1
 
